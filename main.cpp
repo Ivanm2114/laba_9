@@ -17,12 +17,12 @@ bool is_needed_symbol(char c) {
 
 
 int find_substrings(string input[], string out[], int origins[], int len_input) {
-    int len_output = 0, first = -1;
+    int len_output = 0, first = -1,i,j;
     bool flag;
 
-    for (int i = 0; i < len_input; i++) {
+    for ( i = 0; i < len_input; i++) {
         first=-1;
-        for (int j = 0; j < input[i].length(); j++) {
+        for (j = 0; j < input[i].length(); j++) {
             flag = is_needed_symbol(input[i][j]);
             if (flag && first < 0) {
                 first = j;
@@ -32,6 +32,10 @@ int find_substrings(string input[], string out[], int origins[], int len_input) 
                 first = -1;
             }
         }
+    }
+    if(first>=0){
+        out[len_output].assign(input[i-1], first, j - first);
+        origins[len_output++] = i;
     }
     return len_output;
 
@@ -81,14 +85,14 @@ int main() {
     cout << "-----------------------------------\nYour strings:\n";
     for(int i=0;i<len_input;i++) cout<<input[i]+"\n";
     len_good_strs= find_substrings(input,good_strs,indexes_of_origins,len_input);
-    cout << "-----------------------------------\nSuitable strings:\n";
     if(len_good_strs){
+        cout << "-----------------------------------\nSuitable strings:\n";
         for(int i=0;i<len_good_strs;i++) cout<<good_strs[i]+"\n";
         index_of_shortest_str= find_shortest(good_strs,len_good_strs);
-        cout<<"-----------------------------------\nShortest substring:\n" << good_strs[index_of_shortest_str];
+        cout<<"-----------------------------------\nShortest substring:\n" << good_strs[index_of_shortest_str]+"\n";
         added_END=insert_end(input[indexes_of_origins[index_of_shortest_str]]);
         if(added_END){
-            cout<<"\n-----------------------------------\nEdited original string:\n" <<input[indexes_of_origins[index_of_shortest_str]];
+            cout<<"-----------------------------------\nEdited original string:\n" <<input[indexes_of_origins[index_of_shortest_str]];
         }
         else{
             cout<<"-----------------------------------\nThere is no * in string";
