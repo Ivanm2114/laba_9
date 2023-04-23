@@ -31,14 +31,13 @@ int find_substrings(string input[], string out[], int origins[], int len_input) 
                 origins[len_output++] = i;
                 first = -1;
             }
-                     if(first>=0){
-        out[len_output].assign(input[i-1], first, j - first);
-        origins[len_output++] = i;
-    }
         }
-
+        if(first>=0){
+            out[len_output].assign(input[i], first, j - first);
+            origins[len_output++] = i;
+        }
     }
-  
+
     return len_output;
 
 
